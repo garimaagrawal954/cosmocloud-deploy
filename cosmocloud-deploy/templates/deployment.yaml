@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cosmocloud-deploy.fullname" . }}
+  labels:
+    {{- include "cosmocloud-deploy.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "cosmocloud-deploy.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "cosmocloud-deploy.name" . }}
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.backend.port }}
+          env:
+            - name: REDIS_URI
+              value: {{ .Values.env.REDIS_URI }}
+        - name: frontend
+          image: "{{ .Values.frontendImage.repository }}:{{ .Values.frontendImage.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.frontend.port }}
+          env:
+            - name: BACKEND_URL
+              value: {{ .Values.env.BACKEND_URL }}
+        - name: redis
+          image: "{{ .Values.redisImage.repository }}:{{ .Values.redisImage.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.redis.port }}

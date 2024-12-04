@@ -1,0 +1,53 @@
+replicaCount: 1
+
+image:
+  repository: "shreybatra/sample-backend"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+frontendImage:
+  repository: "shreybatra/sample-frontend"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+redisImage:
+  repository: "redis"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  backend:
+    name: "backend-svc"
+    port: 8000
+    type: "ClusterIP"  
+    nodePort: 30000  
+
+  frontend:
+    name: "frontend-svc"
+    port: 5175
+    type: "NodePort"  
+    nodePort: 31000   
+
+  redis:
+    name: "redis-svc"
+    port: 6379
+    type: "ClusterIP"  
+
+env:
+  REDIS_URI: "redis://redis-svc:6379"
+  BACKEND_URL: "http://backend-svc:8000"
+
+resources: {}
+
+livenessProbe: {}
+readinessProbe: {}
+
+autoscaling:
+  enabled: false
+
+ingress:
+  enabled: false
+
+serviceAccount:
+  create: true
+  name: ""

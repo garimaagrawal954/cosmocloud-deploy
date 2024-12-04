@@ -1,0 +1,12 @@
+Thank you for installing cosmocloud!
+
+The following services have been deployed:
+- Backend Service Type: {{ .Values.service.backend.type | default "ClusterIP" }}
+- Frontend Service Type: {{ .Values.service.frontend.type | default "NodePort" }}
+- Redis Service Type: {{ .Values.service.redis.type | default "ClusterIP" }}
+
+You can access the services using the following URLs:
+- Backend: http://backend-svc:8000
+- Frontend: http://localhost:31000 (NodePort)
+
+For more information, check the Helm documentation.

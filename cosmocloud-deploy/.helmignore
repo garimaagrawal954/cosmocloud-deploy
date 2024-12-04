@@ -1,0 +1,6 @@
+# Ignore files and directories that should not be included in the chart
+.git
+.gitignore
+Dockerfile
+README.md
+

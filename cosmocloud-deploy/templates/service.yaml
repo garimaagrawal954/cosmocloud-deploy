@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.service.backend.name }}
+spec:
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    - name: http
+      port: {{ .Values.service.backend.port }}
+      targetPort: {{ .Values.service.backend.port }}
+      {{- if eq .Values.service.backend.type "NodePort" }}
+      nodePort: {{ .Values.service.backend.nodePort }}
+      {{- end }}
+  {{- if .Values.service.backend.type }}
+  type: {{ .Values.service.backend.type }}
+  {{- end }}
